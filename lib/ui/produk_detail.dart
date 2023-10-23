@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tokokita/bloc/produk_bloc.dart';
 import 'package:tokokita/model/produk.dart';
 import 'package:tokokita/ui/produk_form.dart';
+import 'package:tokokita/ui/produk_page.dart';
+import 'package:tokokita/ui/registrasi_page.dart';
 
 class ProdukDetail extends StatefulWidget {
   Produk? produk;
-
   ProdukDetail({Key? key, this.produk}) : super(key: key);
-
   @override
   _ProdukDetailState createState() => _ProdukDetailState();
 }
@@ -17,14 +18,8 @@ class _ProdukDetailState extends State<ProdukDetail> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detail Produk'),
-        actions: [
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Center(
-                  child: Text(
-                'Kikloks',
-                style: TextStyle(fontSize: 20),
-              ))),
+        actions: const [
+          // namaPanggilan(),
         ],
       ),
       body: Center(
@@ -55,7 +50,9 @@ class _ProdukDetailState extends State<ProdukDetail> {
       children: [
         //Tombol Edit
         OutlinedButton(
-            child: const Text("EDIT"),
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 69, 237, 75))),
             onPressed: () {
               Navigator.push(
                   context,
@@ -63,22 +60,32 @@ class _ProdukDetailState extends State<ProdukDetail> {
                       builder: (context) => ProdukForm(
                             produk: widget.produk!,
                           )));
-            }),
+            },
+            child: const Text("EDIT")),
         //Tombol Hapus
         OutlinedButton(
-            child: const Text("DELETE"), onPressed: () => confirmHapus()),
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 237, 57, 57))),
+            onPressed: () => confirmHapus(widget.produk!),
+            child: const Text("DELETE")),
       ],
     );
   }
 
-  void confirmHapus() {
+  void confirmHapus(produk) {
     AlertDialog alertDialog = AlertDialog(
       content: const Text("Yakin ingin menghapus data ini?"),
       actions: [
         //tombol hapus
         OutlinedButton(
           child: const Text("Ya"),
-          onPressed: () {},
+          onPressed: () {
+            ProdukBloc.deleteProduk(id: produk.id).then((value) => {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => ProdukPage()))
+                });
+          },
         ),
         //tombol batal
         OutlinedButton(

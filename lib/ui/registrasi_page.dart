@@ -161,3 +161,22 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     });
   }
 }
+
+class namaPanggilan extends StatelessWidget {
+  const namaPanggilan({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: const Center(
+        child: Text(
+          "Kikloks",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
+  }
+}
